@@ -1,44 +1,60 @@
 # x402 Discovery Index
 
-A live directory of x402-enabled APIs, built for autonomous agents that need to discover and pay for services programmatically using the x402 protocol (https://x402.org).
+A live directory of 12,000+ x402-enabled APIs, built for autonomous agents 
+that discover and pay for services programmatically using the 
+x402 protocol (https://x402.org).
 
 ## What Is This?
 
-The x402 protocol lets HTTP APIs charge per-request using on-chain payments (Base/Ethereum). The x402 Discovery Index aggregates these APIs into one searchable layer so agents don't have to know every endpoint in advance.
+The x402 protocol lets HTTP APIs charge per-request using on-chain payments 
+on Base (Ethereum L2). The x402 Discovery Index aggregates these APIs into 
+one searchable layer — so agents don't need to know every endpoint in advance.
 
 ## How Agents Use It
 
-Query the index to find x402-enabled APIs by category:
+Send a POST request to search the index:
 
-GET https://api.x402index.com/search?q=llm+inference
-Authorization: Bearer YOUR_KEY
+POST http://187.77.201.36:9402/v1/search
+Content-Type: application/json
 
-Response includes endpoint URL, pricing, payment facilitator, and schema.
+{
+  "query": "llm inference",
+  "filters": {
+    "network": "eip155:8453",
+    "scheme": "exact"
+  },
+  "page": { "limit": 20, "offset": 0 },
+  "mode": "agent"
+}
+
+The API uses x402 for payment — your agent pays 1000 USDC units per search 
+request directly on Base. No API keys, no subscriptions.
+
+Full tutorial: http://187.77.201.36:9402/tutorial
 
 ## Currently Indexed
 
 | Provider | Category | Endpoints |
 |----------|----------|-----------|
-| CoinGecko | Crypto data | 22 |
+| CoinGecko | Crypto market data | 22 |
+| CDP x402 Bazaar | Mixed | 12,000+ |
 
 Updated automatically as new providers are verified and listed.
 
 ## List Your x402 API
 
-If you run an x402-enabled API and want it discoverable by agents:
+If you run an x402-enabled API and want it discovered by agents:
 
-- One-time listing fee (no subscription)
-- Your endpoint appears in search results immediately after verification  
-- Agents querying the index pay you directly via x402 — we just route discovery
+- One-time listing fee — no subscription
+- Your endpoint appears in search results immediately after verification
+- Agents querying this index pay you directly via x402
 
-Submit your listing: open an issue in this repo with your endpoint URL and we will follow up.
+To list your API, open an issue in this repo with:
+1. Your endpoint URL
+2. Your x402 payment address
+3. Brief description of what your API does
 
-## How Listing Works
-
-1. You submit your endpoint URL and x402 payment details
-2. We verify the endpoint responds correctly to x402 challenges
-3. Your API appears in the index within 24 hours
-4. Agents find and pay you directly — no middleman on payments
+We will verify and list within 24 hours.
 
 ## Contact
 
